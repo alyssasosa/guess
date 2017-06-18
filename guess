@@ -1,15 +1,27 @@
 #!/usr/bin/env python
 
-x = input("I am thinking of a number between 40 and 50:\n")
+from subprocess import call
 
-print("You entered:")
-print(x)
+def print_and_say(message, voice="Fred"):
+    print(message)
+    call(["say", "-v", voice, message ])
+
+print_and_say("I am thinking of a number between 1 and 100")
+print_and_say("Can you guess what it is?")
+x = input()
+
+print_and_say("You entered: {0}".format(x))
 
 secret = 42
 
+if x < 1:
+    print_and_say("That's too low, silly!", "hysterical")
+if x > 100:
+    print_and_say("That's too high!", "bubbles")
+
 if x == secret:
-    print("CORRECT!!")
+    print_and_say("CORRECT!!")
 else:
-    print("Whaa whaa whaa!!")
+    print_and_say("Whaa whaa whaa!!")
 
 # end of file
