@@ -1,27 +1,41 @@
 #!/usr/bin/env python
 
 from subprocess import call
+import random
 
 def print_and_say(message, voice="Fred"):
     print(message)
     call(["say", "-v", voice, message ])
 
-print_and_say("I am thinking of a number between 1 and 100")
-print_and_say("Can you guess what it is?")
-x = input()
+tries = 3
+low = 1
+high = 100
+secret = random.randint(low, high)
 
-print_and_say("You entered: {0}".format(x))
+print_and_say("I am thinking of a number between {0} and {1}".format(low, high))
 
-secret = 42
+def check_if_you_won(low, high, secret, tries):
 
-if x < 1:
-    print_and_say("That's too low, silly!", "hysterical")
-if x > 100:
-    print_and_say("That's too high!", "bubbles")
+    for times in range(0, tries):
 
-if x == secret:
-    print_and_say("CORRECT!!")
-else:
-    print_and_say("Whaa whaa whaa!!")
+        print_and_say("Can you guess what it is?")
+        x = input()
+        print_and_say("You entered: {0}".format(x))
+
+        if x < low:
+            print_and_say("That's too low!!", "hysterical")
+        if x > high:
+            print_and_say("That's too high!!", "hysterical")
+
+        if x == secret:
+            print_and_say("CORRECT!!")
+            return
+        else:
+            print_and_say("That's totally wrong!!", "Bad news")
+            print_and_say("Whaa whaa whaa!!", "Bad news")
+
+    print_and_say("The right answer is: {0}!!".format(secret), "Good news")
+
+check_if_you_won(low, high, secret, tries)
 
 # end of file
